@@ -1,0 +1,5 @@
+version: "0.0.1"
+desciption: "Hello World Example"
+url: https://github.com/bitcubix/esp-components/tree/master/hello_world
+dependencies:
+  idf: ">=5.0"
