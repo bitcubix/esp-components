@@ -1,6 +1,34 @@
 #include <stdio.h>
 #include "socket.h"
 
+static void do_retransmit(int sock)
+{
+    int len;
+    char rx_buffer[128];
+
+    do {
+        len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+        if (len < 0) {
+            ESP_LOGE(TAG, "error occurred during receiving: errno %d", errno);
+        } else if (len == 0) {
+            ESP_LOGW(TAG, "connection closed");
+        } else {
+            rx_buffer[len] = 0;
+            ESP_LOGI(TAG, "received %d bytes: %s", len, rx_buffer);
+
+            int to_write = len;
+            while (to_write > 0) {
+                int written = send(sock, rx_buffer + (len - to_write), to_write, 0);
+                if (written < 0) {
+                    ESP_LOGE(TAG, "error occurred during sending: errno %d", errno);
+                    return;
+                }
+                to_write -= written;
+            }
+        }
+    } while (len > 0);
+}
+
 static void socket_server(void *pv_parameters)
 {
     char addr_str[128];
@@ -64,7 +92,7 @@ static void socket_server(void *pv_parameters)
         }
         ESP_LOGI(TAG, "socket accepted ip address: %s", addr_str);
 
-        //TODO add handler
+        do_retransmit(sock)M
 
         shutdown(sock, 0);
         close(sock);
