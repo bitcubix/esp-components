@@ -2,10 +2,11 @@
 
 ## Components
 
-| Components  | Description                      | Testing                                   |
-|-------------|----------------------------------|-------------------------------------------|
-| hello_world | just an example                  |                                           |
-| ethernet    | create basic ethernet connection | <ul><li>ESP32-Ethernet-Kit V1.2</li></ul> |
+| Components  | Description                            | Testing                                   |
+|-------------|----------------------------------------|-------------------------------------------|
+| hello_world | just an example                        |                                           |
+| ethernet    | create basic ethernet connection       | <ul><li>ESP32-Ethernet-Kit V1.2</li></ul> |
+| socket      | basic socket server with echo handler  |                                           |
 
 ## Contribution
 
